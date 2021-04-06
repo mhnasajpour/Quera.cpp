@@ -1,7 +1,5 @@
 #include "Library.h"
-#include <iostream>
 #include <string.h>
-using namespace std;
 
 Library::Library(const char *_libName, const char *_address, int _startTime, int _endTime, int _foundYear, int _staffNum, Book *_book, int _sizeofBook) : book(_book)
 {
@@ -48,40 +46,45 @@ void Library::increaseSpaceBook(int newSize)
     book = temp;
 }
 
-void Library::addBook(Book temp)
+void Library::addBook(Book *temp)
 {
     if (spaceBook == sizeofBook)
         increaseSpaceBook(spaceBook + 100);
 
     for (int i = 0; i < sizeofBook; i++)
-        if (strcmp(book[i].getName(), temp.getName()) == 0 && book[i].exist() == true)
+        if (strcmp(book[i].getName(), temp->getName()) == 0 && book[i].exist() == true)
         {
             book[i].setTotal();
             return;
         }
 
-    book[++sizeofBook] = temp;
+    book[sizeofBook++] = *temp;
+}
+
+char *Library::getName()
+{
+    return libName;
 }
 
 bool Library::isOpen(int time)
 {
-    if (time > startTime && time < endTime)
+    if (time >= startTime && time <= endTime)
         return true;
     return false;
 }
 
 void Library::printBooks()
 {
-    Book r;
+    Book *r = new Book;
     for (int i = 0; i < sizeofBook; i++)
     {
-        for (int j = i + 1; j < sizeofBook; j++)
+        for (int j = i; j < sizeofBook; j++)
         {
             if (strcmp(book[i].getName(), book[j].getName()) > 0)
             {
-                r = book[i];
+                *r = book[i];
                 book[i] = book[j];
-                book[j] = r;
+                book[j] = *r;
             }
         }
     }
@@ -94,8 +97,8 @@ void Library::printAuthorsBook(char *name)
 {
     for (int i = 0; i < sizeofBook; i++)
     {
-        if (strcmp(book[i].getName(), name) == 0)
-            printf("%s %d\n", name, book[i].getPublishYear());
+        if (strcmp(book[i].getAuthor().getName(), name) == 0)
+            printf("%s %d\n", book[i].getName(), book[i].getPublishYear());
     }
 }
 
@@ -103,7 +106,7 @@ bool Library::isExistBook(const char *_name)
 {
     for (int i = 0; i < sizeofBook; i++)
     {
-        if (strcpy(book[i].getName(), _name) == 0 && book[i].exist() == true)
+        if (strcmp(book[i].getName(), _name) == 0 && book[i].exist() == true)
             return true;
     }
     return false;
@@ -113,7 +116,8 @@ bool Library::lendBook(const char *_name)
 {
     for (int i = 0; i < sizeofBook; i++)
     {
-        if (strcpy(book[i].getName(), _name) == 0 && book[i].exist() == true){
+        if (strcmp(book[i].getName(), _name) == 0 && book[i].exist() == true)
+        {
             book[i].lendBook();
             return true;
         }
@@ -125,7 +129,8 @@ bool Library::returnBook(const char *_name)
 {
     for (int i = 0; i < sizeofBook; i++)
     {
-        if (strcpy(book[i].getName(), _name) == 0){
+        if (strcmp(book[i].getName(), _name) == 0)
+        {
             book[i].returnBook();
             return true;
         }
