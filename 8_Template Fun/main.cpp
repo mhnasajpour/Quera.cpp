@@ -7,11 +7,9 @@ template <typename T, int SIZE> T getMax(T *arr);
 template <typename T> void Swap(T &x, T &y);
 template <typename T, int SIZE> int find(T *arr, T temp);
 template <typename T, int SIZE> void sort(T *arr);
-template <typename T, int SIZE> void sort(T *arr);
-void sort(char *arr);
 template <typename T, int SIZE> T *valArray(T set);
 template <typename T> T add(T a, T b);
-char *add(char *a, char *b);
+char *add(char *a, char *b); 
 template <typename T> void print(T a);
 void print(double a);
 
@@ -31,7 +29,7 @@ int main()
     cout << find<int, 8>(intArr, 10) << endl;
     //*********************************************
     sort<int, 8>(intArr);
-    sort(chArr);
+    sort<char, 6>(chArr);
     for (int i = 0; i < 8; i++)
         cout << intArr[i] << ' ';
     cout << endl;
@@ -90,17 +88,19 @@ int find(T *arr, T temp)
 template <typename T, int SIZE>
 void sort(T *arr)
 {
+    if (typeid(T) == typeid(char))
+    {
+        for (int i = 0; i < SIZE - 1; i++)
+            for (int j = i + 1; j < SIZE; j++)
+                if (arr[i] < arr[j])
+                    swap(arr[i], arr[j]);
+
+        return;
+    }
+
     for (int i = 0; i < SIZE - 1; i++)
         for (int j = i + 1; j < SIZE; j++)
             if (arr[i] > arr[j])
-                swap(arr[i], arr[j]);
-}
-
-void sort(char *arr)
-{
-    for (int i = 0; i < strlen(arr); i++)
-        for (int j = i + 1; j < strlen(arr); j++)
-            if (arr[i] < arr[j])
                 swap(arr[i], arr[j]);
 }
 
