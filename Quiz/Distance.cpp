@@ -1,6 +1,6 @@
-#include "Space.h"
+#include "Distance.h"
 
-void check(Space &obj){
+void check(Distance &obj){
     while(obj.inches < 0){
         if(obj.feet <= 0){
             if(obj.yard <= 0){
@@ -37,11 +37,11 @@ void check(Space &obj){
     }
 }
 
-Space::Space(){
+Distance::Distance(){
     yard = feet = inches = 0;
 }
 
-Space::Space(int _yard, int _feet, float _inches){
+Distance::Distance(int _yard, int _feet, float _inches){
     yard = _yard;
     feet = _feet;
     inches = _inches;
@@ -49,7 +49,7 @@ Space::Space(int _yard, int _feet, float _inches){
     check(*this);
 }
 
-Space::Space(const Space &obj){
+Distance::Distance(const Distance &obj){
     yard = obj.yard;
     feet = obj.feet;
     inches = obj.inches;
@@ -57,46 +57,46 @@ Space::Space(const Space &obj){
     check(*this);
 }
 
-void Space::setYard(int _yard){
+void Distance::setYard(int _yard){
     yard = _yard;
 }
 
-void Space::setFeet(int _feet){
+void Distance::setFeet(int _feet){
     feet = _feet;
 }
 
-void Space::setInches(float _inches){
+void Distance::setInches(float _inches){
     inches = _inches;
 }
 
-int Space::getYard(){
+int Distance::getYard(){
     return yard;
 }
 
-int Space::getFeet(){
+int Distance::getFeet(){
     return feet;
 }
 
-float Space::getInches(){
+float Distance::getInches(){
     return inches;
 }
 
-istream &operator>>(istream &in, Space &obj){
+istream &operator>>(istream &in, Distance &obj){
     in >> obj.yard >> obj.feet >> obj.inches;
 
     check(obj);
     return in;
 }
 
-ostream &operator<<(ostream &out, Space &obj){  
+ostream &operator<<(ostream &out, Distance &obj){  
     check(obj);
     out << obj.yard << " yard, " << obj.feet << " feet, " << obj.inches << " inches";    
     
     return out;
 }
 
-Space Space::operator+(const Space &obj){
-    Space temp = *this;
+Distance Distance::operator+(const Distance &obj){
+    Distance temp = *this;
     temp.yard += obj.yard;
     temp.feet += obj.feet;
     temp.inches += obj.inches;
@@ -105,16 +105,16 @@ Space Space::operator+(const Space &obj){
     return temp;
 }
 
-Space Space::operator+(float _inches){
-    Space temp = *this;
+Distance Distance::operator+(float _inches){
+    Distance temp = *this;
     temp.inches += _inches;
     
     check(temp);
     return temp;
 }
 
-Space Space::operator-(const Space &obj){
-    Space temp = *this;
+Distance Distance::operator-(const Distance &obj){
+    Distance temp = *this;
     temp.yard -= obj.yard;
     temp.feet -= obj.feet;
     temp.inches -= obj.inches;
@@ -123,7 +123,7 @@ Space Space::operator-(const Space &obj){
     return temp;
 }
 
-Space& Space::operator=(const Space &obj){
+Distance& Distance::operator=(const Distance &obj){
     yard = obj.yard;
     feet = obj.feet;
     inches = obj.inches;
@@ -132,8 +132,8 @@ Space& Space::operator=(const Space &obj){
     return *this;
 }
 
-bool Space::operator==(const Space &obj){
-    Space temp = obj;
+bool Distance::operator==(const Distance &obj){
+    Distance temp = obj;
     check(temp);
     if(yard == temp.yard && feet == temp.feet && inches == temp.inches)
         return true;
@@ -141,8 +141,8 @@ bool Space::operator==(const Space &obj){
     return false;
 }
 
-bool Space::operator<(const Space &obj){
-    Space temp = obj;
+bool Distance::operator<(const Distance &obj){
+    Distance temp = obj;
     check(temp);
     if(yard < temp.yard)
         return true;
@@ -154,8 +154,8 @@ bool Space::operator<(const Space &obj){
     return false;
 }
 
-bool Space::operator>(const Space &obj){
-    Space temp = obj;
+bool Distance::operator>(const Distance &obj){
+    Distance temp = obj;
     check(temp);
     if(yard > temp.yard)
         return true;
@@ -167,7 +167,7 @@ bool Space::operator>(const Space &obj){
     return false;
 }
 
-Space& Space::operator+=(const Space &obj){
+Distance& Distance::operator+=(const Distance &obj){
     this->yard += obj.yard;
     this->feet += obj.feet;
     this->inches += obj.inches;
@@ -176,7 +176,7 @@ Space& Space::operator+=(const Space &obj){
     return *this;
 }
 
-Space& Space::operator+=(float _inches){
+Distance& Distance::operator+=(float _inches){
     this->inches += _inches;
     
     check(*this);
